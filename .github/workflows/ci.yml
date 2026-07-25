@@ -15,6 +15,9 @@ jobs:
       
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
+      - name: Build Frontend Docker image
+        uses: docker build -f src/frontend/Dockerfile -t cloudcart/frontend:latest src/frontend
   
       - name: Display Repository Structure
         run: |
