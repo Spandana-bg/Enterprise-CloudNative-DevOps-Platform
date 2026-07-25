@@ -23,7 +23,7 @@ jobs:
         run: docker build -f src/adservice/Dockerfile -t microservices-demo/adservice:latest src/adservice
   
       - name: Build cartservice Docker image
-        run: docker build -f src/cartservice/Dockerfile -t microservices-demo/cartservice:latest src/cartserice
+        run: docker build -f src/cartservice/Dockerfile -t microservices-demo/cartservice:latest src/cartservice
   
       - name: Build checkoutservice Docker image
         run: docker build -f src/checkoutservice/Dockerfile -t microservices-demo/checkoutservice:latest src/checkoutservice
