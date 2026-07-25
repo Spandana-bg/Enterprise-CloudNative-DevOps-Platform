@@ -19,8 +19,33 @@ jobs:
       - name: Build Frontend Docker image
         run: docker build -f src/frontend/Dockerfile -t microservices-demo/frontend:latest src/frontend
   
-      # - name: Display Repository Structure
-      #   run: |
-      #       pwd
-      #       ls -la
-      
+      - name: Build Adservice Docker image
+        run: docker build -f src/adservice/Dockerfile -t microservices-demo/adservice:latest src/adservice
+  
+      - name: Build cartservice Docker image
+        run: docker build -f src/cartservice/Dockerfile -t microservices-demo/cartservice:latest src/cartserice
+  
+      - name: Build checkoutservice Docker image
+        run: docker build -f src/checkoutservice/Dockerfile -t microservices-demo/checkoutservice:latest src/checkoutservice
+  
+      - name: Build emailservice Docker image
+        run: docker build -f src/emailservice/Dockerfile -t microservices-demo/emailservice:latest src/emailservice
+  
+      - name: Build loadgenerator Docker image
+        run: docker build -f src/loadgenerator/Dockerfile -t microservices-demo/loadgenerator:latest src/loadgenerator
+  
+      - name: Build paymentservice Docker image
+        run: docker build -f src/paymentservice/Dockerfile -t microservices-demo/paymentservice:latest src/paymentservice
+  
+      - name: Build productcatalogservice Docker image
+        run: docker build -f src/productcatalogservice/Dockerfile -t microservices-demo/productcatalogservice:latest src/productcatalogservice
+  
+      - name: Build recommendationservice Docker image
+        run: docker build -f src/recommendationservice/Dockerfile -t microservices-demo/recommendationservice:latest src/recommendationservice
+  
+      - name: Build shippingservice Docker image
+        run: docker build -f src/shippingservice/Dockerfile -t microservices-demo/shippingservice:latest src/shippingservice
+  
+      - name: Build shoppingassistantservice Docker image
+        run: docker build -f src/shoppingassistantservice/Dockerfile -t microservices-demo/shoppingassistantservice:latest src/shoppingassistantservice
+  
