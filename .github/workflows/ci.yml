@@ -16,4 +16,4 @@ jobs:
       - name: Display Repository Structure
         run: |
             pwd
-            la -la
+            l -la
