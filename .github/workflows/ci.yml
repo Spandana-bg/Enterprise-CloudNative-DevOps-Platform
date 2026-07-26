@@ -1,51 +1,125 @@
-name: Online-Botique CI pipeline
+# name: Online-Botique CI pipeline
+
+# on:
+#  push:
+#     branches:
+#         - main
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout Repository
+#         uses: actions/checkout@v4
+      
+#       - name: Set up Docker Buildx
+#         uses: docker/setup-buildx-action@v3
+
+#       - name: Build Frontend Docker image
+#         run: docker build -f src/frontend/Dockerfile -t microservices-demo/frontend:latest src/frontend
+  
+#       - name: Build Adservice Docker image
+#         run: docker build -f src/adservice/Dockerfile -t microservices-demo/adservice:latest src/adservice
+  
+#       - name: Build cartservice Docker image
+#         run: docker build -f src/cartservice/src/Dockerfile -t microservices-demo/cartservice:latest src/cartservice/src
+  
+#       - name: Build checkoutservice Docker image
+#         run: docker build -f src/checkoutservice/Dockerfile -t microservices-demo/checkoutservice:latest src/checkoutservice
+  
+#       - name: Build emailservice Docker image
+#         run: docker build -f src/emailservice/Dockerfile -t microservices-demo/emailservice:latest src/emailservice
+  
+#       - name: Build loadgenerator Docker image
+#         run: docker build -f src/loadgenerator/Dockerfile -t microservices-demo/loadgenerator:latest src/loadgenerator
+  
+#       - name: Build paymentservice Docker image
+#         run: docker build -f src/paymentservice/Dockerfile -t microservices-demo/paymentservice:latest src/paymentservice
+  
+#       - name: Build productcatalogservice Docker image
+#         run: docker build -f src/productcatalogservice/Dockerfile -t microservices-demo/productcatalogservice:latest src/productcatalogservice
+  
+#       - name: Build recommendationservice Docker image
+#         run: docker build -f src/recommendationservice/Dockerfile -t microservices-demo/recommendationservice:latest src/recommendationservice
+  
+#       - name: Build shippingservice Docker image
+#         run: docker build -f src/shippingservice/Dockerfile -t microservices-demo/shippingservice:latest src/shippingservice
+  
+#       - name: Build shoppingassistantservice Docker image
+#         run: docker build -f src/shoppingassistantservice/Dockerfile -t microservices-demo/shoppingassistantservice:latest src/shoppingassistantservice
+  
+
+name: Online-Boutique CI Pipeline
 
 on:
- push:
+  push:
     branches:
-        - main
+      - main
+  workflow_dispatch:
 
 jobs:
-  build:
+  build-images:
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - service: frontend
+            dockerfile: src/frontend/Dockerfile
+            context: src/frontend
+
+          - service: adservice
+            dockerfile: src/adservice/Dockerfile
+            context: src/adservice
+
+          - service: cartservice
+            dockerfile: src/cartservice/src/Dockerfile
+            context: src/cartservice/src
+
+          - service: checkoutservice
+            dockerfile: src/checkoutservice/Dockerfile
+            context: src/checkoutservice
+
+          - service: currencyservice
+            dockerfile: src/currencyservice/Dockerfile
+            context: src/currencyservice
+
+          - service: emailservice
+            dockerfile: src/emailservice/Dockerfile
+            context: src/emailservice
+
+          - service: paymentservice
+            dockerfile: src/paymentservice/Dockerfile
+            context: src/paymentservice
+
+          - service: productcatalogservice
+            dockerfile: src/productcatalogservice/Dockerfile
+            context: src/productcatalogservice
+
+          - service: recommendationservice
+            dockerfile: src/recommendationservice/Dockerfile
+            context: src/recommendationservice
+
+          - service: shippingservice
+            dockerfile: src/shippingservice/Dockerfile
+            context: src/shippingservice
+
+          - service: loadgenerator
+            dockerfile: src/loadgenerator/Dockerfile
+            context: src/loadgenerator
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build Frontend Docker image
-        run: docker build -f src/frontend/Dockerfile -t microservices-demo/frontend:latest src/frontend
-  
-      - name: Build Adservice Docker image
-        run: docker build -f src/adservice/Dockerfile -t microservices-demo/adservice:latest src/adservice
-  
-      - name: Build cartservice Docker image
-        run: docker build -f src/cartservice/src/Dockerfile -t microservices-demo/cartservice:latest src/cartservice/src
-  
-      - name: Build checkoutservice Docker image
-        run: docker build -f src/checkoutservice/Dockerfile -t microservices-demo/checkoutservice:latest src/checkoutservice
-  
-      - name: Build emailservice Docker image
-        run: docker build -f src/emailservice/Dockerfile -t microservices-demo/emailservice:latest src/emailservice
-  
-      - name: Build loadgenerator Docker image
-        run: docker build -f src/loadgenerator/Dockerfile -t microservices-demo/loadgenerator:latest src/loadgenerator
-  
-      - name: Build paymentservice Docker image
-        run: docker build -f src/paymentservice/Dockerfile -t microservices-demo/paymentservice:latest src/paymentservice
-  
-      - name: Build productcatalogservice Docker image
-        run: docker build -f src/productcatalogservice/Dockerfile -t microservices-demo/productcatalogservice:latest src/productcatalogservice
-  
-      - name: Build recommendationservice Docker image
-        run: docker build -f src/recommendationservice/Dockerfile -t microservices-demo/recommendationservice:latest src/recommendationservice
-  
-      - name: Build shippingservice Docker image
-        run: docker build -f src/shippingservice/Dockerfile -t microservices-demo/shippingservice:latest src/shippingservice
-  
-      - name: Build shoppingassistantservice Docker image
-        run: docker build -f src/shoppingassistantservice/Dockerfile -t microservices-demo/shoppingassistantservice:latest src/shoppingassistantservice
-  
+      - name: Build Docker Image
+        run: |
+          docker build \
+            -f ${{ matrix.dockerfile }} \
+            -t microservices-demo/${{ matrix.service }}:latest \
+            ${{ matrix.context }}
